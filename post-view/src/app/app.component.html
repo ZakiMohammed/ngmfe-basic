@@ -1,1 +1,33 @@
-<h1>Post View</h1>
+<div class="card border-primary">
+  <h6 class="card-header border-bottom border-primary">post-view [remote]</h6>
+  <div class="card-body">
+    <h4 class="card-title mb-3">
+      <button
+        class="btn btn-sm btn-outline-light float-end"
+        (click)="goToList()"
+      >
+      <i class="bi bi-arrow-left"></i>
+        Back
+      </button>
+      <i class="bi bi-card-checklist"></i> Post Details
+    </h4>
+    @if (post(); as post) {
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">{{ post.title | titlecase }}</h4>
+        <h6 class="card-subtitle mb-2 mt-3 text-muted">
+          <i class="bi bi-eye"></i> {{ post.views }}
+          <i class="bi bi-hand-thumbs-up"></i> {{ post.reactions.likes }}
+          <i class="bi bi-hand-thumbs-down"></i> {{ post.reactions.dislikes }}
+        </h6>
+        <p class="card-text">{{ post.body }}</p>
+        <div>
+          @for (tag of post.tags; track $index) {
+          <span class="badge bg-primary me-1">{{ tag }}</span>
+          }
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>

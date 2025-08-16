@@ -1,59 +1,78 @@
 # PostView
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.4.
+This is the remote app contains the post view pages.
 
-## Development server
+#### MFE Setup
 
-To start a local development server, run:
+1. Add Native Federation package:
 
-```bash
-ng serve
+```
+npm i @angular-architects/native-federation -D
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+2. Init Native Federation:
 
-## Code scaffolding
+```
+ng g @angular-architects/native-federation:init --project post-view --port 4202 --type remote
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+Switching project to the application builder using esbuild ...
+CREATE federation.config.js (783 bytes)
+CREATE src/bootstrap.ts (238 bytes)
+UPDATE angular.json (3227 bytes)
+UPDATE package.json (1484 bytes)
+UPDATE src/main.ts (199 bytes)
+✔ Packages installed successfully.
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+#### Base Setup
 
-```bash
-ng generate --help
+Install below NPM deps:
+
+```
+npm i bootstrap bootstrap-icons bootswatch ngx-toastr
+ng add @angular/animations
 ```
 
-## Building
+Add Schematics in `angular.json`:
 
-To build the project run:
-
-```bash
-ng build
+```
+"schematics": {
+  "@schematics/angular:component": {
+      "style": "scss",
+      "type": "component"
+  },
+  "@schematics/angular:directive": { "type": "directive" },
+  "@schematics/angular:service": { "type": "service" },
+  "@schematics/angular:guard": { "typeSeparator": "." },
+  "@schematics/angular:interceptor": { "typeSeparator": "." },
+  "@schematics/angular:module": { "typeSeparator": "." },
+  "@schematics/angular:pipe": { "typeSeparator": "." },
+  "@schematics/angular:resolver": { "typeSeparator": "." }
+},
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Import styles in `styles.scss`:
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
+```
+@import '../node_modules/bootswatch/dist/brite/bootstrap.min.css';
+@import '../node_modules/bootstrap-icons/font/bootstrap-icons.css';
+@import '../node_modules/ngx-toastr/toastr.css';
 ```
 
-## Running end-to-end tests
+Add app configs `app.config.ts`:
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
 ```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideHttpClient(),
+    provideAnimations(),
+    provideToastr({
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }),
+  ]
+};
+```

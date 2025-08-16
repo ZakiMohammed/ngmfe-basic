@@ -1,0 +1,4 @@
+{
+	"post-list": "http://localhost:4201/remoteEntry.json",
+	"post-view": "http://localhost:4202/remoteEntry.json"
+}
